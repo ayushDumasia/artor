@@ -1,11 +1,11 @@
-import {asyncHandler} from "../utils/asyncHandler.js";
+import Comment from "../models/commnet.schema.js";
 import Post from "../models/post.schema.js";
 import User from "../models/user.schema.js";
-import {ApiResponse} from "../utils/ApiResponse.js";
 import {ApiError} from "../utils/ApiError.js";
-import Comment from "../models/commnet.schema.js";
-import {uploadOnCloudinary} from "./../utils/cloudinary.js";
+import {ApiResponse} from "../utils/ApiResponse.js";
+import {asyncHandler} from "../utils/asyncHandler.js";
 import SavedPost from "./../models/savedPost.schema.js";
+import {uploadOnCloudinary} from "./../utils/cloudinary.js";
 
 // * Fetch Post
 export const fetchPost = asyncHandler(async (req, res) => {
@@ -23,13 +23,13 @@ export const createPost = asyncHandler(async (req, res) => {
   // console.log(userId);
   const user = await User.findOne({_id: userId});
   const coverImageLocalPath = await req.file?.path;
-  // console.log("COVER IMAGE : ", coverImageLocalPath);
+  console.log("COVER IMAGE : ", coverImageLocalPath);
 
   if (!coverImageLocalPath) {
     throw new ApiError(406, "images required");
   }
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-  // console.log(coverImage);
+  console.log(coverImage);
   if (!coverImage) {
     throw new ApiError(406, "images required");
   }
